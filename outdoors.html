@@ -24,14 +24,8 @@
   <p class="tagline">I lead trips for the Harvard Outing Club into the White Mountain National Forest, and I've been photographing since shooting events for CS50. This page is a running collection of both.</p>
 
   <h2>Hiking &amp; Climbing</h2>
-  <!--
-    HOW TO ADD YOUR OWN PHOTOS:
-    1. Put your image files in this same folder (e.g. img/hike-01.jpg).
-    2. Replace a <figure class="ph">...</figure> block below with:
-       <figure><img src="img/hike-01.jpg" alt="Short description"><figcaption>Caption text</figcaption></figure>
-    3. Repeat for each photo. Keep captions short (trip name, peak, or date).
-  -->
-  <div class="gallery">
+  <!-- To add photos: drop image files into img/hiking/ and push. No HTML editing needed — see img/README.md -->
+  <div class="gallery" id="gallery-hiking">
     <figure><div class="ph">Photo placeholder<br>White Mountains trip</div><figcaption>White Mountain National Forest &mdash; add your photo</figcaption></figure>
     <figure><div class="ph">Photo placeholder<br>Summit view</div><figcaption>Summit &mdash; add your photo</figcaption></figure>
     <figure><div class="ph">Photo placeholder<br>Trail / group shot</div><figcaption>Outing Club trip &mdash; add your photo</figcaption></figure>
@@ -42,7 +36,8 @@
 
   <h2>Photography</h2>
   <p>Selected shots from CS50 events and beyond, edited in Adobe Lightroom.</p>
-  <div class="gallery">
+  <!-- To add photos: drop image files into img/photography/ and push. No HTML editing needed — see img/README.md -->
+  <div class="gallery" id="gallery-photography">
     <figure><div class="ph">Photo placeholder<br>CS50 event</div><figcaption>CS50 &mdash; add your photo</figcaption></figure>
     <figure><div class="ph">Photo placeholder</div><figcaption>Add your photo</figcaption></figure>
     <figure><div class="ph">Photo placeholder</div><figcaption>Add your photo</figcaption></figure>
@@ -54,5 +49,29 @@
   </footer>
 
 </div>
+
+<script>
+  async function loadGallery(folder, containerId) {
+    const container = document.getElementById(containerId);
+    try {
+      const res = await fetch(`https://api.github.com/repos/samdhungana/samdhungana.github.io/contents/img/${folder}`);
+      if (!res.ok) return;
+      const files = await res.json();
+      const images = files
+        .filter(f => f.type === 'file' && /\.(jpe?g|png|webp|gif)$/i.test(f.name))
+        .sort((a, b) => a.name.localeCompare(b.name));
+      if (images.length === 0) return;
+      container.innerHTML = images.map(f => {
+        const caption = f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        const src = `img/${folder}/${encodeURIComponent(f.name)}`;
+        return `<figure><img src="${src}" alt="${caption}" loading="lazy"><figcaption>${caption}</figcaption></figure>`;
+      }).join('');
+    } catch (e) {
+      // network or rate-limit issue — leave placeholders in place
+    }
+  }
+  loadGallery('hiking', 'gallery-hiking');
+  loadGallery('photography', 'gallery-photography');
+</script>
 </body>
 </html>
