@@ -51,6 +51,23 @@
 </div>
 
 <script>
+  // Optional curated captions, keyed by filename. Any photo not listed here
+  // falls back to a caption generated from its filename automatically.
+  const CAPTIONS = {
+    'thorong-la-pass.jpg': 'Thorong La Pass (5,416m), Annapurna Circuit, Nepal',
+    'tilicho-lake-nepal.jpg': 'Tilicho Lake, Nepal',
+    'franconia-ridge-winter.jpg': 'Franconia Ridge in winter, White Mountains',
+    'providence-marathon.jpg': 'Running the Providence Marathon',
+    'ice-climbing-wide.jpg': 'Ice climbing',
+    'ice-climbing-ascent.jpg': 'Ice climbing — mid-ascent',
+    'ice-climbing-anchor.jpg': 'Ice climbing — taking a breather',
+    'charles-river-sunset.jpg': 'By the Charles River at dusk',
+    'autumn-mountain-road.jpg': 'White Mountains in fall',
+    'ballroom-dance-silhouette.jpg': 'Ballroom dance',
+    'mount-washington-valley.jpg': 'Mount Washington Valley',
+    'sunset-silhouette.jpg': 'Sunset',
+  };
+
   async function loadGallery(folder, containerId) {
     const container = document.getElementById(containerId);
     try {
@@ -62,7 +79,7 @@
         .sort((a, b) => a.name.localeCompare(b.name));
       if (images.length === 0) return;
       container.innerHTML = images.map(f => {
-        const caption = f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        const caption = CAPTIONS[f.name] || f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
         const src = `img/${folder}/${encodeURIComponent(f.name)}`;
         return `<figure><img src="${src}" alt="${caption}" loading="lazy"><figcaption>${caption}</figcaption></figure>`;
       }).join('');
