@@ -21,7 +21,7 @@
   </header>
 
   <h1>Outdoors &amp; Photography</h1>
-  <p class="tagline">I lead trips for the Harvard Outing Club into the White Mountain National Forest, and I've been photographing since shooting events for CS50. This page is a running collection of both.</p>
+  <p class="tagline">I lead trips for the Harvard Outing Club into the White Mountain National Forest, and I've been photographing since 2024. This page is a running collection of both.</p>
 
   <h2>Hiking &amp; Climbing</h2>
   <!-- To add photos: drop image files into img/hiking/ and push. No HTML editing needed — see img/README.md -->
@@ -50,6 +50,12 @@
 
 </div>
 
+<div class="lightbox" id="lightbox">
+  <span class="lightbox-close" aria-hidden="true">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
 <script>
   // Optional curated captions, keyed by filename. Any photo not listed here
   // falls back to a caption generated from its filename automatically.
@@ -58,9 +64,9 @@
     'tilicho-lake-nepal.jpg': 'Tilicho Lake, Nepal',
     'franconia-ridge-winter.jpg': 'Franconia Ridge in winter, White Mountains',
     'providence-marathon.jpg': 'Running the Providence Marathon',
-    'ice-climbing-wide.jpg': 'Ice climbing',
+    'ice-climbing-wide.jpg': 'Ice climbing in Daks',
     'ice-climbing-ascent.jpg': 'Ice climbing — mid-ascent',
-    'ice-climbing-anchor.jpg': 'Ice climbing — taking a breather',
+    'ice-climbing-anchor.jpg': 'Repelling Down the Ice in Daks',
     'charles-river-sunset.jpg': 'By the Charles River at dusk',
     'autumn-mountain-road.jpg': 'White Mountains in fall',
     'ballroom-dance-silhouette.jpg': 'Ballroom dance',
@@ -89,6 +95,27 @@
   }
   loadGallery('hiking', 'gallery-hiking');
   loadGallery('photography', 'gallery-photography');
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest('.gallery img');
+    if (img) {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightboxCaption.textContent = img.alt;
+      lightbox.classList.add('open');
+      return;
+    }
+    if (e.target.closest('#lightbox')) {
+      lightbox.classList.remove('open');
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') lightbox.classList.remove('open');
+  });
 </script>
 </body>
 </html>

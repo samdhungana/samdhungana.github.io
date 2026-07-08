@@ -159,8 +159,45 @@ footer.site { margin-top: 60px; padding-top: 18px; border-top: 1px solid var(--l
   text-align: center;
   padding: 10px;
 }
-.gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+.gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; cursor: zoom-in; }
 .gallery figcaption { font-family: Helvetica, Arial, sans-serif; font-size: 12.5px; color: var(--ink-soft); padding: 8px 10px; }
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 26, 0.92);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 24px;
+  cursor: zoom-out;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 92vw;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+.lightbox-caption {
+  color: #fff;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13.5px;
+  margin-top: 14px;
+  text-align: center;
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  color: #fff;
+  font-size: 32px;
+  line-height: 1;
+  font-family: Helvetica, Arial, sans-serif;
+}
 
 .btn {
   display: inline-block;
